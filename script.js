@@ -493,3 +493,10 @@ const cells = rows.selectAll("td")
   .enter()
   .append("td")
   .text(d => d);
+
+let previewColumn = [];
+
+const columnSelection = d3.selectAll('tr')._groups[0]
+.forEach( function (v) {
+   previewColumn.push(v.lastChild) 
+ } )
