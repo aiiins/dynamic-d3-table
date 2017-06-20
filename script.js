@@ -1,3 +1,5 @@
+// it's all data until line ~470
+
 const theColumns = [{
     name: "Name",
     cl: "text",
@@ -15,8 +17,7 @@ const theColumns = [{
   }
 ]
 
-const theData = [
-  {
+const theData = [{
     "name": "AliceBlue"
   },
   {
@@ -465,10 +466,30 @@ const table = d3.select("#table-container")
 table.append("thead");
 table.append("tbody");
 
-const headerRow = table.select("thead") // the destination of the Column data
+const headerRow = table.select("thead")
   .selectAll("th")
-  .data(theColumns) // bind the header row data to the `thead` selection
+  .data(theColumns)
   .enter().append("th")
   .attr("class", d => d.cl)
   .attr("id", d => d.id)
   .text(d => d.name);
+
+const theArray = []
+
+
+theData.forEach(
+  function(d) {
+    theArray.push([d.name, d.name.length, ""]);
+  }
+)
+
+const rows = table.select("tbody")
+  .selectAll("tr")
+  .data(theArray)
+  .enter().append("tr");
+
+const cells = rows.selectAll("td")
+  .data(d => d) // creates a `td` for every item in an array
+  .enter()
+  .append("td")
+  .text(d => d);
