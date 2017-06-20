@@ -508,6 +508,23 @@ const columnSelection = d3.selectAll('tr')._groups[0]
 //
 d3.selectAll("tbody tr td:last-child")
   .data(theData)
-  .style("background", function(d,i) {
-    return  d.name;
-  })
+  .append("svg").attr("width", "3.5em").attr("height", "1.7em")
+  .append("circle").attr("r", 10).attr("cx", ".5em").attr("cy", ".85em")
+  .style("fill", d =>  d.name)
+  .transition().attr("cx", "1em")
+
+  d3.selectAll("circle").data(theData)
+    .transition()
+    .duration(500)
+    .ease(d3.easeLinear).delay( function (d,i) {return i * 200} )
+    .attr("cx", ".5em")
+    .on("start", shiver);
+
+  function shiver() {
+    d3.active(this)
+        .attr("cx", "3em")
+      .transition()
+        .attr("cx", ".5em")
+      .transition()
+        .on("start", shiver);
+  }
