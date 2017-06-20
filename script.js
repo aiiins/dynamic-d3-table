@@ -498,5 +498,14 @@ let previewColumn = [];
 
 const columnSelection = d3.selectAll('tr')._groups[0]
 .forEach( function (v) {
-   previewColumn.push(v.lastChild) 
+   previewColumn.push(v.lastChild)
  } )
+
+// select and manipulate columns POC -- vanilla
+// previewColumn.forEach(v => v.style.backgroundColor = "red" )
+
+
+d3.selectAll("tbody tr td")
+  .data(theData)
+  .style("background", function(d,i) {
+    return i % 2 == 0 ? d.name : null })
