@@ -502,29 +502,27 @@ const columnSelection = d3.selectAll('tr')._groups[0]
    previewColumn.push(v.lastChild)
  } )
 
-// select and manipulate columns POC -- vanilla
-// previewColumn.forEach(v => v.style.backgroundColor = "red" )
 
-//
 d3.selectAll("tbody tr td:last-child")
   .data(theData)
-  .append("svg").attr("width", "3.5em").attr("height", "1.7em")
-  .append("circle").attr("r", 10).attr("cx", ".5em").attr("cy", ".85em")
+  .append("svg")
+    .attr("width", "3.5em")
+    .attr("height", "1.7em")
+  .append("rect")
+    .attr("x", "0")
+    .attr("y", ".7em")
+    .attr("height", "1em")
   .style("fill", d =>  d.name)
-  .transition().attr("cx", "1em")
+  .transition()
+    .duration(2000)
+    .attr("width", d => d.name.length * 7)
+    .on("start", repeat);
 
-  d3.selectAll("circle").data(theData)
-    .transition()
-    .duration(500)
-    .ease(d3.easeLinear).delay( function (d,i) {return i * 200} )
-    .attr("cx", ".5em")
-    .on("start", shiver);
-
-  function shiver() {
-    d3.active(this)
-        .attr("cx", "3em")
-      .transition()
-        .attr("cx", ".5em")
-      .transition()
-        .on("start", shiver);
-  }
+function repeat() {
+  d3.active(this)
+            .attr("width", 0)
+          .transition().delay(2000)
+            .attr("width",  d => d.name.length * 7)
+          .transition().delay(2000)
+            .on("start", repeat);
+}
